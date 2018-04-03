@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title text-center><b>Aswant Solution Sdn Bhd</b></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="margin-left:2%;margin-top:3%;">
+  <div align="center">
+    <img src="{{defaultPicture}}" class="beforeFixing"  *ngIf="default" (click)="presentActionSheet()"><br>  
+    <img src="data:image/jpeg;base64,{{cameraData}}" class="beforeFixing" *ngIf="uploadDone" (click)="presentActionSheet()"><br>
+  </div><br><br>
+
+  <ion-item>
+    <ion-label stacked><b>Staff's Name:</b></ion-label>
+    <ion-input required type="text" placeholder="Ahmad Mutalib"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked><b>I/C No:</b></ion-label>
+    <ion-input required type="text" placeholder="xxxxxx-xx-xxxx"></ion-input>
+    <div>
+      <p class="msg1" style="color:#f53d3d;">Enter valid ic without '-'</p> 
+    </div>
+  </ion-item>
+
+  <div padding text-center>
+    <button class="submitButton" round small ion-button type="submit" (click)="goSubmit()">Register</button>
+    <button class="listButton" round small ion-button (click)="goList()">Staff's List</button> 
+  </div>
+</ion-content>
