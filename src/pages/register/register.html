@@ -12,12 +12,12 @@
 
   <ion-item>
     <ion-label stacked><b>Staff's Name:</b></ion-label>
-    <ion-input required type="text" placeholder="Ahmad Mutalib"></ion-input>
+    <ion-input [(ngModel)]="name" required type="text" placeholder="Ahmad Mutalib"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label stacked><b>I/C No:</b></ion-label>
-    <ion-input required type="text" placeholder="xxxxxx-xx-xxxx"></ion-input>
+    <ion-input [(ngModel)]="identity" required type="text" placeholder="xxxxxx-xx-xxxx"></ion-input>
     <div>
       <p class="msg1" style="color:#f53d3d;">Enter valid ic without '-'</p> 
     </div>

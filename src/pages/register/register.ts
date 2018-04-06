@@ -27,6 +27,8 @@ export class RegisterPage {
 
   staffsRef:AngularFireList<any>;
   staffs:Observable<any[]>;
+  name: string;
+  ic: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera,
     private file: File, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController,
@@ -114,7 +116,9 @@ export class RegisterPage {
       //   {
       //     name: 'title',
       //     placeholder: 'Title'
-      //   },
+      //   },                  p/s: ni coding yg ble kita pop up baru kita input,
+                            //tapi kita xnk input dri sini
+                            //kita nak input kt ion-input tp data tu nak bwk ke dlm ni
       // ],
       buttons: [
         {
@@ -130,6 +134,8 @@ export class RegisterPage {
    
             newStaffRef.set({
               id: newStaffRef.key,
+              name: data.name,
+              ic: data.identity
               // title: data.title   -- yg ni nak kena bwak tu dari ion-input
               // tp xtaw mcm mana
             });
