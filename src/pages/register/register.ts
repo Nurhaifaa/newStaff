@@ -5,7 +5,6 @@ import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
-import { StaffListPage } from '../staff-list/staff-list';
 
 @IonicPage()
 @Component({
@@ -23,7 +22,7 @@ export class RegisterPage {
   lastImage: string = null;
   uploadDone: boolean = false;
   default: boolean = true;
-  // transferImg: string;
+  transferImg: string;
 
   staffsRef:AngularFireList<any>;
   staffs:Observable<any[]>;
@@ -84,42 +83,41 @@ export class RegisterPage {
       targetWitdh: 1000,
       targetHeight: 1000
     };
-  }
 
     // Get the data of an image
-  //   this.camera.getPicture(options).then((imagePath) => {
-  //     console.log("imagePathCamera", imagePath)
-  //     this.cameraData = imagePath;
-  //     this.transferImg = 'data:image/jpeg;base64,' + imagePath
-  //     this.default = false;
-  //     this.uploadDone = true;
-  //     console.log("imagePathPublic", imagePath)
-  //   }, (err) => {
-  //     this.presentToast('Error while selecting image.');
-  //   });
-  // }
+    this.camera.getPicture(options).then((imagePath) => {
+      console.log("imagePathCamera", imagePath)
+      this.cameraData = imagePath;
+      this.transferImg = 'data:image/jpeg;base64,' + imagePath
+      this.default = false;
+      this.uploadDone = true;
+      console.log("imagePathPublic", imagePath)
+    }, (err) => {
+      this.presentToast('Error while selecting image.');
+    });
+  }
 
-  // private presentToast(text) {
-  //   let toast = this.toastCtrl.create({
-  //     message: text,
-  //     duration: 3000,
-  //     position: 'bottom'
-  //   });
-  //   toast.present();
-  // }
+  private presentAlert(text) {
+    let alert = this.alertCtrl.create({
+      subTitle: text,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
 
   goSubmit(){
     let prompt = this.alertCtrl.create({
       title: 'Staff Information',
       message: "Are you sure want to submit your information?",
-      // inputs: [
-      //   {
-      //     name: 'title',
-      //     placeholder: 'Title'
-      //   },                  p/s: ni coding yg ble kita pop up baru kita input,
-                            //tapi kita xnk input dri sini
-                            //kita nak input kt ion-input tp data tu nak bwk ke dlm ni
-      // ],
       buttons: [
         {
           text: 'Cancel',
@@ -132,21 +130,23 @@ export class RegisterPage {
           handler: data => {
             const newStaffRef = this.staffsRef.push({});
    
+            if(this.name && this.ic == undefined){
+              this.presentAlert('Please try again.');
+            }else{
             newStaffRef.set({
               id: newStaffRef.key,
-              name: data.name,
-              ic: data.identity
-              // title: data.title   -- yg ni nak kena bwak tu dari ion-input
-              // tp xtaw mcm mana
+              name: this.name,
+              ic: this.ic
             });
+            this.presentToast("Data have been successfully sumbitted.")
           }
         }
-      ]
+        }]
     });
     prompt.present();
   }
 
   goList(){
-    this.navCtrl.push(StaffListPage);
+    this.navCtrl.push('StaffListPage');
   }
 }
