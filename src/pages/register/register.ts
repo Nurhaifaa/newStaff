@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 export class RegisterPage {
 
   ngOnInit(): void {
-    // throw new Error("Method not implemented.");
+    // throw new Error("Method not implemented.");    //sekarang ni github punya
   }
 
   defaultPicture: string;
