@@ -17,6 +17,7 @@ export class StaffListPage {
   name: string;
   ic: string;
 //try la
+//da konfius ni
   constructor(public navCtrl: NavController, public navParams: NavParams, afDatabase: AngularFireDatabase,
     public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
 
