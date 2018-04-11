@@ -4,9 +4,9 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-list>
-    <ion-item *ngFor="let staff of staffs | async">
+    <ion-item *ngFor="let staff of staffs | async" (click)="showOptions(staff.id, staff.name, staff.ic)">
       {{staff.name}}<br>
       {{staff.ic}}<br>
     </ion-item>
