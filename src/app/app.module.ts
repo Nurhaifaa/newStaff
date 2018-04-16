@@ -11,6 +11,7 @@ import { File } from '@ionic-native/file';
 //import AF2 module
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
+import { AuthProvider } from '../providers/auth/auth';
 
 //AF2 setting
 export const firebaseConfig = {
@@ -41,7 +42,8 @@ export const firebaseConfig = {
     SplashScreen,
     Camera,
     File,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider
   ]
 })
 export class AppModule {}
