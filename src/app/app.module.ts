@@ -12,6 +12,7 @@ import { File } from '@ionic-native/file';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AuthProvider } from '../providers/auth/auth';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //AF2 setting
 export const firebaseConfig = {
@@ -31,7 +32,8 @@ export const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

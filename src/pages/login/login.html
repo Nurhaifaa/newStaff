@@ -1,28 +1,39 @@
 <ion-content padding class="background">
   <div class="bodypart">
-    <img src="assets/imgs/aswant_logo.PNG" style="width: 60%;margin-left: 20%;" class="logo" margin-top>
-    <ion-card style="margin-top: 25px;">
-      <ion-segment style="background: #e78ab7;" class="md">
-        <ion-segment-button>
-          <span style="color: #fff;">Login</span>
-        </ion-segment-button>
-      </ion-segment>
+    <img src="assets/imgs/aswant_logo.PNG" style="width: 75%;size:20%;margin-left: 15%;" class="logo" margin-top>
 
-      <form [formGroup]="login" (ngSubmit)="goLogin(login.value)">
+      <form [formGroup]="loginForm" (submit)="userLogin()" novalidate>
         <ion-item>
-          <ion-label floating>Email</ion-label>
-          <ion-input formControlName="email" required text-lowercase type="email"></ion-input>
+          <ion-label stacked>Email</ion-label>
+          <ion-input #email formControlName="email" type="email" placeholder="Your email address"
+            [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty">
+          </ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!loginForm.controls.email.valid && loginForm.controls.email.dirty">
+          <p>Please enter a valid email</p>
         </ion-item>
 
         <ion-item>
-          <ion-label floating>Password</ion-label>
-          <ion-input formControlName="password" type="password"></ion-input>
+          <ion-label stacked>Password</ion-label>
+          <ion-input #password formControlName="password" type="password" placeholder="Your password"
+            [class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
+          </ion-input>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
+          <p>Your password needs more than 6 characters.</p>
         </ion-item>
         
         <div padding>
           <button class="loginButton" full ion-button type="submit">Login</button> 
         </div>
       </form>
-    </ion-card>
+
+      <button ion-button block clear (click)="goToResetPassword()">
+        I forgot my password 🙁
+      </button>
+    
+      <button ion-button block clear (click)="register()">
+        Create a new account
+      </button>
   </div>
 </ion-content>

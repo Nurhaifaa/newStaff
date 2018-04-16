@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthProvider } from '../../providers/auth/auth';
+import { EmailValidator } from '../../validators/email';
 
 @IonicPage()
 @Component({
@@ -9,61 +11,63 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class LoginPage {
 
-  text: string;
-  login: FormGroup;
-  email: any;
+  loginForm: FormGroup;
+  loading: Loading;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder, public authData: AuthProvider, public loadingCtrl: LoadingController) {
 
-      this.login = this.formBuilder.group({
-        email: ['', Validators.compose([Validators.required, Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')])],
-        password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+      this.loginForm = formBuilder.group({
+        email: [
+          '',
+          Validators.compose([Validators.required, EmailValidator.isValid]),
+        ],
+        password: [
+          '',
+          Validators.compose([Validators.minLength(6), Validators.required]),
+        ],
       });
-
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  presentAlert(message){ //ni salah satu lagi cara nk show alert, so nampak mcm kemas sikit.
-    let alert = this.alertCtrl.create({ // kalau boleh minimize lagi cantik code kita, lagi kemas
-      title: 'Wrong information!',
-      subTitle: message,
-      buttons: ['OK']
-    });
-    alert.present();
+  userLogin(){
+    if (!this.loginForm.valid){
+      console.log(this.loginForm.value);
+    } else {
+      this.authData.userLogin(this.loginForm.value.email, this.loginForm.value.password)
+        .then( authData => {
+          this.navCtrl.setRoot('StaffListPage');
+        }, error => {
+          this.loading.dismiss().then( () => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "OK",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
+        });
+
+        this.loading = this.loadingCtrl.create({
+          dismissOnPageChange: true,
+        });
+        this.loading.present();
+    }
   }
 
-  goLogin(form){
-    console.log('Form Value', form)
-    if(form.email == "" && form.password == "")
-    {
-      this.presentAlert('Please enter email and password')
-    }
+  goToResetPassword(){
+    this.navCtrl.push('ResetPasswordPage');
+  }
 
-    else if(form.email == "")
-    {
-      this.presentAlert('Please enter a valid email!')
-    }
-
-    else if(form.password == "")
-    {
-      this.presentAlert('Please enter a valid password!')
-    }
-
-    else if(form.password.length < 6) //ce adjust yg ni, tak lebih dari 16 char
-    {
-      this.presentAlert('Password must be at least 6 characters')
-    }
-
-    else{
-
-      // if 
-      this.navCtrl.setRoot('StaffListPage')
-    }
-    
+  register(){
+    this.navCtrl.push('RegisterPage');
   }
 
 }
