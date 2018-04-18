@@ -1,30 +1,25 @@
-<ion-header>
-  <ion-navbar color="secondary">
-    <ion-title text-center><b>Aswant Solution Sdn Bhd</b></ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content padding>
+  <form [formGroup]="registerForm" (submit)="userRegister()" novalidate>
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Your email address"
+        [class.invalid]="!registerForm.controls.email.valid && registerForm.controls.email.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!registerForm.controls.email.valid && registerForm.controls.email.dirty">
+      <p>Please enter a valid email.</p>
+    </ion-item>
 
-<ion-content style="margin-left:2%;margin-top:3%;">
-  <div align="center">
-    <img src="{{defaultPicture}}" class="beforeFixing"  *ngIf="default" (click)="presentActionSheet()"><br>  
-    <img src="data:image/jpeg;base64,{{cameraData}}" class="beforeFixing" *ngIf="uploadDone" (click)="presentActionSheet()"><br>
-  </div><br><br>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="Your password"
+        [class.invalid]="!registerForm.controls.password.valid && registerForm.controls.password.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!registerForm.controls.password.valid && registerForm.controls.password.dirty">
+      <p>Your password needs more than 6 characters.</p>
+    </ion-item>
 
-  <ion-item>
-    <ion-label stacked><b>Staff's Name:</b></ion-label>
-    <ion-input [(ngModel)]="name" required type="text" placeholder="Ahmad Mutalib"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label stacked><b>I/C No:</b></ion-label>
-    <ion-input [(ngModel)]="ic" required type="text" placeholder="xxxxxx-xx-xxxx"></ion-input>
-    <div>
-      <p class="msg1" style="color:#f53d3d;">Enter valid ic without '-'</p> 
-    </div>
-  </ion-item>
-
-  <div padding text-center>
-    <button class="submitButton" round small ion-button type="submit" (click)="goSubmit()">Register</button>
-    <button class="listButton" round small ion-button (click)="goList()">Staff's List</button> 
-  </div>
+    <button ion-button full color="primary" type="submit">Register</button>
+  </form>
 </ion-content>

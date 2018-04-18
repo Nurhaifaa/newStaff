@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Camera } from '@ionic-native/camera';
-import { File } from '@ionic-native/file';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
+import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthProvider } from '../../providers/auth/auth';
+import { EmailValidator } from '../../validators/email';
 
 @IonicPage()
 @Component({
@@ -13,140 +11,49 @@ import { Observable } from 'rxjs/Observable';
 })
 export class RegisterPage {
 
-  ngOnInit(): void {
-    // throw new Error("Method not implemented.");    //sekarang ni github punya
-  }
+  public registerForm: FormGroup;
+  public loading: Loading;
 
-  defaultPicture: string;
-  cameraData: string;
-  lastImage: string = null;
-  uploadDone: boolean = false;
-  default: boolean = true;
-  transferImg: string;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authData: AuthProvider,
+    public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public alertCtrl: AlertController) {
 
-  staffsRef:AngularFireList<any>;
-  staffs:Observable<any[]>;
-  name: string;
-  ic: string;
+      this.registerForm = formBuilder.group({
+        email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+        password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+      });
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera,
-    private file: File, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController,
-    private alertCtrl: AlertController, afDatabase: AngularFireDatabase) {
-
-      this.defaultPicture = 'assets/imgs/default.png';
-
-      this.staffsRef = afDatabase.list('/staffs');
-      this.staffs = afDatabase.list('/staffs').valueChanges();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
-  public presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Select Your Image',
-      buttons: [
-        {
-          text: 'Photo Gallery',
-          icon: 'images',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Camera',
-          icon: 'camera',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.CAMERA);
-          }
-        },
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel'
-        }
-      ]
-    });
-    actionSheet.present();
-  }
-
-  public takePicture(sourceType) {
-    // Create options for the Camera Dialog
-    var options = {
-      quality: 50,
-      sourceType: sourceType,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      saveToPhotoAlbum: false,
-      correctOrientation: true,
-      targetWitdh: 1000,
-      targetHeight: 1000
-    };
-
-    // Get the data of an image
-    this.camera.getPicture(options).then((imagePath) => {
-      console.log("imagePathCamera", imagePath)
-      this.cameraData = imagePath;
-      this.transferImg = 'data:image/jpeg;base64,' + imagePath
-      this.default = false;
-      this.uploadDone = true;
-      console.log("imagePathPublic", imagePath)
-    }, (err) => {
-      this.presentToast('Error while selecting image.');
-    });
-  }
-
-  private presentAlert(text) {
-    let alert = this.alertCtrl.create({
-      subTitle: text,
-      buttons: ['OK']
-    });
-    alert.present();
-  }
-
-  private presentToast(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 3000,
-      position: 'top'
-    });
-    toast.present();
-  }
-
-  goSubmit(){
-    let prompt = this.alertCtrl.create({
-      title: 'Staff Information',
-      message: "Are you sure want to submit your information?",
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Submit',
-          handler: data => {
-            const newStaffRef = this.staffsRef.push({});
-   
-            if(this.name && this.ic == undefined){
-              this.presentAlert('Please try again.');
-            }else{
-            newStaffRef.set({
-              id: newStaffRef.key,
-              name: this.name,
-              ic: this.ic
+  userRegister(){
+    if (!this.registerForm.valid){
+      console.log(this.registerForm.value);
+    } else {
+      this.authData.userRegister(this.registerForm.value.email, this.registerForm.value.password)
+        .then ( () => {
+          this.navCtrl.setRoot('StaffListPage');
+        }, (error) => {
+          this.loading.dismiss().then ( () => {
+            var errorMessage: string = error.message;
+            let alert = this.alertCtrl.create({
+              message: errorMessage,
+              buttons: [
+                {
+                  text: "OK",
+                  role: 'cancel'
+                }
+              ]
             });
-            this.presentToast("Data have been successfully sumbitted.")
-          }
-        }
-        }]
-    });
-    prompt.present();
-  }
-
-  goList(){
-    this.navCtrl.push('StaffListPage');
+            alert.present();
+          });
+        });
+        this.loading = this.loadingCtrl.create({
+          dismissOnPageChange: true,
+        });
+        this.loading.present();
+    }
   }
 }

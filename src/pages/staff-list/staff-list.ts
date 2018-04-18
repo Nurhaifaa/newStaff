@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { AuthProvider } from '../../providers/auth/auth';
 
 
 @IonicPage()
@@ -19,7 +20,7 @@ export class StaffListPage {
 //try la
 //da konfius ni
   constructor(public navCtrl: NavController, public navParams: NavParams, afDatabase: AngularFireDatabase,
-    public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
+    public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController, public authData: AuthProvider) {
 
     this.staffsRef = afDatabase.list('/staffs');
     this.staffs = afDatabase.list('/staffs').valueChanges();    
@@ -98,6 +99,12 @@ export class StaffListPage {
       ]
     });
     prompt.present();
+  }
+
+  userLogout(){
+    this.authData.userLogout().then( () => {
+      this.navCtrl.setRoot('LoginPage');
+    });
   }
 
 }
