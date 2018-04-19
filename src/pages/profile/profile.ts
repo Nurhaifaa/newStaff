@@ -21,8 +21,8 @@ export class ProfilePage {
   ngOnInit(): void {
     // throw new Error("Method not implemented.");    //sekarang ni github punya
   }
-  
-  userid : any;
+
+  userid: any;
   defaultPicture: string;
   cameraData: string;
   lastImage: string = null;
@@ -30,8 +30,8 @@ export class ProfilePage {
   default: boolean = true;
   transferImg: string;
 
-  staffsRef:AngularFireList<any>;
-  staffs:Observable<any[]>;
+  staffsRef: AngularFireList<any>;
+  staffs: Observable<any[]>;
   firstName: string;
   lastName: string;
   ic: string;
@@ -47,27 +47,27 @@ export class ProfilePage {
     private file: File, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController,
     private alertCtrl: AlertController, private afDatabase: AngularFireDatabase, private auth: AngularFireAuth) {
 
-      this.auth.authState.subscribe((user) => {
-        this.userid = user.uid;
-        this.staff = this.afDatabase.object('users/'+user.uid);
-        this.staff$ = this.staff.valueChanges();
-        this.staff$.subscribe((u)=> {
-          this.firstName = u.first_name,
+    this.auth.authState.subscribe((user) => {
+      this.userid = user.uid;
+      this.staff = this.afDatabase.object('users/' + user.uid);
+      this.staff$ = this.staff.valueChanges();
+      this.staff$.subscribe((u) => {
+        this.firstName = u.first_name,
           this.lastName = u.last_name,
           this.birthDate = u.birthday,
           this.ic = u.ic_no,
           this.staffPosition = u.position,
           this.email = u.email,
           this.telephoneNo = u.contact
-        })
       })
+    })
 
-      this.defaultPicture = 'assets/imgs/default.png';
+    this.defaultPicture = 'assets/imgs/default.png';
 
-      // this.staffsRef = afDatabase.list('/staffs');
-      // this.staffs = afDatabase.list('/staffs').valueChanges();
+    // this.staffsRef = afDatabase.list('/staffs');
+    // this.staffs = afDatabase.list('/staffs').valueChanges();
 
-      
+
 
 
   }
@@ -146,7 +146,7 @@ export class ProfilePage {
     toast.present();
   }
 
-  profileEdit(){
+  profileEdit() {
     let prompt = this.alertCtrl.create({
       title: 'Staff Information',
       message: "Are you sure want to submit your information?",
@@ -160,23 +160,21 @@ export class ProfilePage {
         {
           text: 'Submit',
           handler: data => {
-            if(this.firstName || this.lastName || this.ic || this.birthDate ||this.staffPosition || this.email
-              || this.telephoneNo == undefined)
-              {
-                this.presentAlert('Please complete the information.');
-              }else{
-                firebase.database().ref().child('users/'+this.userid).update({
-                  first_name : this.firstName,
-                  last_name : this.lastName,
-                  birthday: this.birthDate,
-                  ic_no: this.ic,
-                  position: this.staffPosition,
-                  email:this.email,
-                  contact:this.telephoneNo,
-                })
-            this.presentToast("Data have been successfully sumbitted.")
+            if (this.firstName == undefined|| this.lastName == undefined|| this.ic == undefined|| this.birthDate == undefined|| this.staffPosition == undefined|| this.email == undefined|| this.telephoneNo == undefined) {
+              this.presentAlert('Please complete the information.');
+            } else {
+              firebase.database().ref().child('users/' + this.userid).update({
+                first_name: this.firstName,
+                last_name: this.lastName,
+                birthday: this.birthDate,
+                ic_no: this.ic,
+                position: this.staffPosition,
+                email: this.email,
+                contact: this.telephoneNo,
+              })
+              this.presentToast("Data have been successfully sumbitted.")
+            }
           }
-        }
         }]
     });
     prompt.present();
