@@ -5,6 +5,9 @@ import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireObject } from 'angularfire2/database/interfaces';
+import { NgForm } from '@angular/forms'
 
 @IonicPage()
 @Component({
@@ -34,19 +37,38 @@ export class ProfilePage {
   email: any;
   telephoneNo: number;
 
+  staff: AngularFireObject<any>;
+  staff$: Observable<any>;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera,
     private file: File, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController,
-    private alertCtrl: AlertController, afDatabase: AngularFireDatabase) {
+    private alertCtrl: AlertController, private afDatabase: AngularFireDatabase, private auth: AngularFireAuth) {
+
+      this.auth.authState.subscribe((user) => {
+        this.staff = this.afDatabase.object('users/'+user.uid);
+        this.staff$ = this.staff.valueChanges();
+        this.staff$.subscribe((u)=> {
+          this.firstName = u.first_name,
+          this.lastName = u.last_name,
+          this.birthDate = u.birthday,
+          this.ic = u.ic_no,
+          this.staffPosition = u.position,
+          this.email = u.email,
+          this.telephoneNo = u.contact
+        })
+      })
 
       this.defaultPicture = 'assets/imgs/default.png';
 
-      this.staffsRef = afDatabase.list('/staffs');
-      this.staffs = afDatabase.list('/staffs').valueChanges();
+      // this.staffsRef = afDatabase.list('/staffs');
+      // this.staffs = afDatabase.list('/staffs').valueChanges();
+
+      
+
 
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
   }
 
   public presentActionSheet() {

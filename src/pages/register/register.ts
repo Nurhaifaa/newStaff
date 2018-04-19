@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, LoadingController, Loading, AlertC
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
 import { EmailValidator } from '../../validators/email';
+import * as firebase from 'firebase';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -25,7 +27,6 @@ export class RegisterPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
   }
 
   userRegister(){
@@ -33,8 +34,19 @@ export class RegisterPage {
       console.log(this.registerForm.value);
     } else {
       this.authData.userRegister(this.registerForm.value.email, this.registerForm.value.password)
-        .then ( () => {
-          this.navCtrl.setRoot('ProfilePage');
+        .then ( (user) => {
+          firebase.database().ref().child('users/'+user.uid).set({
+             email: user.email,
+             first_name: '',
+             last_name: '',
+             image: '',
+             ic_no: '',
+             position: '',
+             contact: '',
+             birthday: '',
+          }).then(()=> {
+            this.navCtrl.setRoot(LoginPage);
+          })
         }, (error) => {
           this.loading.dismiss().then ( () => {
             var errorMessage: string = error.message;
