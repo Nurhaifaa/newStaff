@@ -160,8 +160,6 @@ export class ProfilePage {
         {
           text: 'Submit',
           handler: data => {
-            const newStaffRef = this.staffsRef.push({});
-   
             if(this.firstName || this.lastName || this.ic || this.birthDate ||this.staffPosition || this.email
               || this.telephoneNo == undefined)
               {
