@@ -161,7 +161,7 @@ export class ProfilePage {
             if(this.firstName || this.lastName || this.ic || this.birthDate ||this.staffPosition || this.email
               || this.telephoneNo == undefined)
               {
-                this.presentAlert('Please try again.');
+                this.presentAlert('Please complete the information.');
               }else{
               newStaffRef.set({
                 id: newStaffRef.key,
@@ -173,7 +173,7 @@ export class ProfilePage {
                 email: this.email,
                 tel: this.telephoneNo
               });
-            this.navCtrl.setRoot('StaffListPage');
+            // this.navCtrl.setRoot('StaffListPage');
             this.presentToast("Data have been successfully sumbitted.");
           }
         }
