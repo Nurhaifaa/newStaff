@@ -165,7 +165,7 @@ export class ProfilePage {
             if(this.firstName || this.lastName || this.ic || this.birthDate ||this.staffPosition || this.email
               || this.telephoneNo == undefined)
               {
-                this.presentAlert('Please try again.');
+                this.presentAlert('Please complete the information.');
               }else{
                 firebase.database().ref().child('users/'+this.userid).update({
                   first_name : this.firstName,

@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
 import { EmailValidator } from '../../validators/email';
 import * as firebase from 'firebase';
-import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -45,7 +44,7 @@ export class RegisterPage {
              contact: '',
              birthday: '',
           }).then(()=> {
-            this.navCtrl.setRoot(LoginPage);
+            this.navCtrl.setRoot('LoginPage');
           })
         }, (error) => {
           this.loading.dismiss().then ( () => {
