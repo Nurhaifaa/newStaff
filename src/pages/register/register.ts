@@ -34,7 +34,7 @@ export class RegisterPage {
     } else {
       this.authData.userRegister(this.registerForm.value.email, this.registerForm.value.password)
         .then ( () => {
-          this.navCtrl.setRoot('StaffListPage');
+          this.navCtrl.setRoot('ProfilePage');
         }, (error) => {
           this.loading.dismiss().then ( () => {
             var errorMessage: string = error.message;

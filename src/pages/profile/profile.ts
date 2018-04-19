@@ -151,7 +151,8 @@ export class ProfilePage {
                 email: this.email,
                 tel: this.telephoneNo
               });
-            this.presentToast("Data have been successfully sumbitted.")
+            this.navCtrl.setRoot('StaffListPage');
+            this.presentToast("Data have been successfully sumbitted.");
           }
         }
         }]
