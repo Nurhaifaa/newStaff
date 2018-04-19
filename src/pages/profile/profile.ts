@@ -26,8 +26,13 @@ export class ProfilePage {
 
   staffsRef:AngularFireList<any>;
   staffs:Observable<any[]>;
-  name: string;
+  firstName: string;
+  lastName: string;
   ic: string;
+  birthDate: string;
+  staffPosition: string;
+  email: any;
+  telephoneNo: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera,
     private file: File, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController,
@@ -115,7 +120,7 @@ export class ProfilePage {
     toast.present();
   }
 
-  goSubmit(){
+  profileEdit(){
     let prompt = this.alertCtrl.create({
       title: 'Staff Information',
       message: "Are you sure want to submit your information?",
@@ -131,24 +136,27 @@ export class ProfilePage {
           handler: data => {
             const newStaffRef = this.staffsRef.push({});
    
-            if(this.name && this.ic == undefined){
-              this.presentAlert('Please try again.');
-            }else{
-            newStaffRef.set({
-              id: newStaffRef.key,
-              name: this.name,
-              ic: this.ic
-            });
+            if(this.firstName || this.lastName || this.ic || this.birthDate ||this.staffPosition || this.email
+              || this.telephoneNo == undefined)
+              {
+                this.presentAlert('Please try again.');
+              }else{
+              newStaffRef.set({
+                id: newStaffRef.key,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                ic: this.ic,
+                bod: this.birthDate,
+                position: this.staffPosition,
+                email: this.email,
+                tel: this.telephoneNo
+              });
             this.presentToast("Data have been successfully sumbitted.")
           }
         }
         }]
     });
     prompt.present();
-  }
-
-  goList(){
-    this.navCtrl.push('StaffListPage');
   }
 
 }

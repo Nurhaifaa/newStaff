@@ -1,18 +1,28 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>List of Staff Member</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let staff of staffs | async" (click)="showOptions(staff.id, staff.name, staff.ic)">
-      {{staff.name}}<br>
-      {{staff.ic}}<br>
-    </ion-item>
-  </ion-list>
-
-  <div>
-    <button ion-button round small color="primary" (click)="userLogout()">Logout</button>
+  <div padding>
+    <ion-list>
+      <ion-item *ngFor="let staff of staffs | async" (click)="showOptions(staff.id, staff.firstName,
+        staff.lastName, staff.ic, staff.staffPosition)">
+        <b>Name :</b>{{staff.firstName}} &nbsp; {{staff.lastName}}<br>
+        <b>I/C No :</b>{{staff.ic}}<br>
+        <b>Position :</b>{{staff.staffPosition}}<br>
+      </ion-item>
+    </ion-list>
   </div>
+
+  
 </ion-content>
+
+<ion-footer>
+  <div class="bottom" text-center>
+    <button ion-button round small color="secondary" (click)="userLogout()" class="logout">Logout</button>
+ 
+    <button ion-button round small color="secondary" (click)="editProfile()">Edit Profile</button>
+  </div>
+</ion-footer>

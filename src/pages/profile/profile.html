@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="secondary">
+    <ion-navbar color="primary">
       <ion-title text-center><b>Aswant Solution Sdn Bhd</b></ion-title>
     </ion-navbar>
   </ion-header>
@@ -11,21 +11,42 @@
     </div><br><br>
   
     <ion-item>
-      <ion-label stacked><b>Staff's Name:</b></ion-label>
-      <ion-input [(ngModel)]="name" required type="text" placeholder="Ahmad Mutalib"></ion-input>
+      <ion-label stacked><b>First Name:</b></ion-label>
+      <ion-input [(ngModel)]="firstName" required type="text" placeholder="Ahmad Mutalib"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked><b>Last Name:</b></ion-label>
+      <ion-input [(ngModel)]="lastName" required type="text" placeholder="Muhammad"></ion-input>
     </ion-item>
   
     <ion-item>
-      <ion-label stacked><b>I/C No:</b></ion-label>
+      <ion-label stacked><b>I/C:</b></ion-label>
       <ion-input [(ngModel)]="ic" required type="text" placeholder="xxxxxx-xx-xxxx"></ion-input>
-      <div>
-        <p class="msg1" style="color:#f53d3d;">Enter valid ic without '-'</p> 
-      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked><b>BOD:</b></ion-label>
+      <ion-input [(ngModel)]="birthDate" required type="text" placeholder="xx-xx-xxxx"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked><b>Position:</b></ion-label>
+      <ion-input [(ngModel)]="staffPosition" required type="text" placeholder="Managing Director"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked><b>Email:</b></ion-label>
+      <ion-input [(ngModel)]="email" required type="email" placeholder="asus@abc.com"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked><b>Contact No:</b></ion-label>
+      <ion-input [(ngModel)]="telephoneNo" required type="tel" placeholder="0123456789"></ion-input>
     </ion-item>
   
     <div padding text-center>
-      <button class="submitButton" round small ion-button type="submit" (click)="goSubmit()">Register</button>
-      <button class="listButton" round small ion-button (click)="goList()">Staff's List</button> 
+      <button class="submitButton" color="secondary" round small ion-button type="submit" (click)="profileEdit()">Save</button> 
     </div>
   </ion-content>
   

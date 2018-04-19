@@ -1,70 +1,5 @@
 page-login {
 	
-    .item {
-		border-color: "third";
-		background-color: transparent;
-		color: black;
-		border-bottom: 0px;
-	}
-
-	.item-md.item-block .item-inner {
-		border-bottom: 0px;
-	}
-	.item-ios.item-block .item-inner {
-		border-bottom: 0px;
-	}
-	.text-on-bottom > .button-inner {
-		flex-direction: column;
-	  }
-
-	.item-md [item-left], .item-md [item-right], .item-md [item-start], .item-md [item-end] {
-		 margin: 5px;
-		 margin-left: 40px;
-	}
-
-	.label-md {
-		margin: 14px 1px 15px 0;
-	}
-
-	.float-header{
-        background: map-get($colors, secondary);
-        margin-top:-5px;
-        padding :10px;
-        position:absolute;
-        z-index:3;
-        left: 5%;
-        right: 5%;
-        box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
-        // color: white;
-	}
-	.cloud{
-		size:48 × 48;
-	}
-	
-	.card-content-md {
-    	padding: 19px 27px;
-    	margin-top: 22px;
-    	font-size: 1.4rem;
-    	line-height: 1.5;
-	}
-
-	ion-item.homeContent{
-		padding-left: 5px;
-		padding-top: 18px;
-    }
-    
-    .enterUsername{
-        margin: 0px 16px 0px;
-    }
-
-    .enterPassword{
-        margin: 0px 16px 0px;
-    }
-
-    .character{
-        margin: 0px 16px 0px;
-	}
-	
 	form {
 		margin-bottom: 32px;
 		button {
@@ -72,9 +7,9 @@ page-login {
 		}
 	  }
 	
-	  p {
+	  p.error {
 		font-size: 0.8em;
-		color: #d2d2d2;
+		color: #fa1717;
 	  }
 	
 	  ion-label {

@@ -1,39 +1,40 @@
-<ion-content padding class="background">
+<ion-content padding>
   <div class="bodypart">
-    <img src="assets/imgs/aswant_logo.PNG" style="width: 75%;size:20%;margin-left: 15%;" class="logo" margin-top>
+    <img src="assets/imgs/aswant_logo.PNG" style="width: 80%;size:20%;margin-left: 15%;margin-bottom:10%;" class="logo" margin-top>
 
       <form [formGroup]="loginForm" (submit)="userLogin()" novalidate>
         <ion-item>
-          <ion-label stacked>Email</ion-label>
+          <ion-label stacked><b>Email</b></ion-label>
           <ion-input #email formControlName="email" type="email" placeholder="Your email address"
             [class.invalid]="!loginForm.controls.email.valid && loginForm.controls.email.dirty">
           </ion-input>
         </ion-item>
         <ion-item class="error-message" *ngIf="!loginForm.controls.email.valid && loginForm.controls.email.dirty">
-          <p>Please enter a valid email</p>
+          <p class="error"><b>Please enter a valid email.</b></p>
         </ion-item>
 
         <ion-item>
-          <ion-label stacked>Password</ion-label>
+          <ion-label stacked><b>Password</b></ion-label>
           <ion-input #password formControlName="password" type="password" placeholder="Your password"
             [class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
           </ion-input>
         </ion-item>
         <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
-          <p>Your password needs more than 6 characters.</p>
+          <p class="error"><b>Your password needs more than 6 characters.</b></p>
         </ion-item>
         
         <div padding>
           <button class="loginButton" full ion-button type="submit">Login</button> 
         </div>
+
       </form>
 
       <button ion-button block clear (click)="goToResetPassword()">
         I forgot my password 🙁
       </button>
-    
+  
       <button ion-button block clear (click)="register()">
-        Create a new account
+        Register 
       </button>
   </div>
 </ion-content>

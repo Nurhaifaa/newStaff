@@ -15,8 +15,10 @@ export class StaffListPage {
   staffsRef:AngularFireList<any>;
   staffs:Observable<any[]>;
 
-  name: string;
+  firstName: string;
+  lastName: string;
   ic: string;
+  position: string;
 //try la
 //da konfius ni
   constructor(public navCtrl: NavController, public navParams: NavParams, afDatabase: AngularFireDatabase,
@@ -29,11 +31,12 @@ export class StaffListPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad StaffListPage');
 
-    console.log("name", this.name);
+    console.log("name", this.firstName && this.lastName);
     console.log("ic", this.ic);
+    console.log("position", this.position);
   }
 
-  showOptions(staffId, staffName, staffIc) {
+  showOptions(staffId, staffFirstName, staffLastName, staffIc, staffPosition) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'What do you want to do?',
       buttons: [
@@ -46,7 +49,7 @@ export class StaffListPage {
         },{
           text: 'Update name',
           handler: () => {
-            this.updateStaff(staffId, staffName, staffIc);
+            this.updateStaff(staffId, staffFirstName, staffLastName, staffIc, staffPosition);
           }
         },{
           text: 'Cancel',
@@ -64,20 +67,30 @@ export class StaffListPage {
     this.staffsRef.remove(staffId);
   }
 
-  updateStaff(staffId, staffName, staffIc){
+  updateStaff(staffId, staffFirstName, staffLastName, staffIc, staffPosition){
     let prompt = this.alertCtrl.create({
       title: 'Staff Name and Staff Ic',
       message: "Update the name or ic for this staff",
       inputs: [
         {
-          name: 'name',
-          placeholder: 'Name',
-          value: staffName
+          name: 'First Name',
+          placeholder: 'First Name',
+          value: staffFirstName
+        },
+        {
+          name: 'Last Name',
+          placeholder: 'Last Name',
+          value: staffLastName
         },
         {
           name: 'ic',
           placeholder: 'Ic',
           value: staffIc
+        },
+        {
+          name: 'position',
+          placeholder: 'Position',
+          value: staffPosition
         }
       ],
       buttons: [
@@ -91,8 +104,10 @@ export class StaffListPage {
           text: 'Save',
           handler: data => {
             this.staffsRef.update(staffId, {
-              name: data.name,
-              ic: data.ic
+              firstName: data.firstName, 
+              lastName: data.lastName,
+              ic: data.ic,
+              staffPosition: data.position
             });
           }
         }
@@ -105,6 +120,10 @@ export class StaffListPage {
     this.authData.userLogout().then( () => {
       this.navCtrl.setRoot('LoginPage');
     });
+  }
+
+  editProfile(){
+    this.navCtrl.push('ProfilePage');
   }
 
 }
