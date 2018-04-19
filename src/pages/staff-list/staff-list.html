@@ -7,11 +7,11 @@
 <ion-content>
   <div padding>
     <ion-list>
-      <ion-item *ngFor="let staff of staffs | async" (click)="showOptions(staff.id, staff.firstName,
-        staff.lastName, staff.ic, staff.staffPosition)">
-        <b>Name :</b>{{staff.firstName}} &nbsp; {{staff.lastName}}<br>
-        <b>I/C No :</b>{{staff.ic}}<br>
-        <b>Position :</b>{{staff.staffPosition}}<br>
+      <ion-item *ngFor="let staff of staffs | async" (click)="showOptions(staff.id, staff.first_name,
+        staff.last_name, staff.ic_no, staff.position)">
+        <b>Name :</b>{{staff.first_name}} &nbsp; {{staff.last_ame}}<br>
+        <b>I/C No :</b>{{staff.ic_no}}<br>
+        <b>Position :</b>{{staff.position}}<br>
       </ion-item>
     </ion-list>
   </div>

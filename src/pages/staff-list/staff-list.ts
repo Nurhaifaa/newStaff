@@ -24,16 +24,11 @@ export class StaffListPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, afDatabase: AngularFireDatabase,
     public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController, public authData: AuthProvider) {
 
-    this.staffsRef = afDatabase.list('/staffs');
-    this.staffs = afDatabase.list('/staffs').valueChanges();    
+    this.staffsRef = afDatabase.list('/users');
+    this.staffs = this.staffsRef.valueChanges();    
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad StaffListPage');
-
-    console.log("name", this.firstName && this.lastName);
-    console.log("ic", this.ic);
-    console.log("position", this.position);
   }
 
   showOptions(staffId, staffFirstName, staffLastName, staffIc, staffPosition) {

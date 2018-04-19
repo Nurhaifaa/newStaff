@@ -7,7 +7,9 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireObject } from 'angularfire2/database/interfaces';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
+import * as firebase from 'firebase';
+
 
 @IonicPage()
 @Component({
@@ -19,7 +21,8 @@ export class ProfilePage {
   ngOnInit(): void {
     // throw new Error("Method not implemented.");    //sekarang ni github punya
   }
-
+  
+  userid : any;
   defaultPicture: string;
   cameraData: string;
   lastImage: string = null;
@@ -45,6 +48,7 @@ export class ProfilePage {
     private alertCtrl: AlertController, private afDatabase: AngularFireDatabase, private auth: AngularFireAuth) {
 
       this.auth.authState.subscribe((user) => {
+        this.userid = user.uid;
         this.staff = this.afDatabase.object('users/'+user.uid);
         this.staff$ = this.staff.valueChanges();
         this.staff$.subscribe((u)=> {
@@ -163,16 +167,15 @@ export class ProfilePage {
               {
                 this.presentAlert('Please try again.');
               }else{
-              newStaffRef.set({
-                id: newStaffRef.key,
-                firstName: this.firstName,
-                lastName: this.lastName,
-                ic: this.ic,
-                bod: this.birthDate,
-                position: this.staffPosition,
-                email: this.email,
-                tel: this.telephoneNo
-              });
+                firebase.database().ref().child('users/'+this.userid).update({
+                  first_name : this.firstName,
+                  last_name : this.lastName,
+                  birthday: this.birthDate,
+                  ic_no: this.ic,
+                  position: this.staffPosition,
+                  email:this.email,
+                  contact:this.telephoneNo,
+                })
             this.presentToast("Data have been successfully sumbitted.")
           }
         }
