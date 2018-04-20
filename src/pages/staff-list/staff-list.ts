@@ -42,11 +42,6 @@ export class StaffListPage {
             this.removeStaff(staffId);
           }
         },{
-          text: 'Update name',
-          handler: () => {
-            this.updateStaff(staffId, staffFirstName, staffLastName, staffIc, staffPosition);
-          }
-        },{
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
@@ -60,55 +55,6 @@ export class StaffListPage {
 
   removeStaff(staffId: string){
     this.staffsRef.remove(staffId);
-  }
-
-  updateStaff(staffId, staffFirstName, staffLastName, staffIc, staffPosition){
-    let prompt = this.alertCtrl.create({
-      title: 'Staff Name and Staff Ic',
-      message: "Update the name or ic for this staff",
-      inputs: [
-        {
-          name: 'First Name',
-          placeholder: 'First Name',
-          value: staffFirstName
-        },
-        {
-          name: 'Last Name',
-          placeholder: 'Last Name',
-          value: staffLastName
-        },
-        {
-          name: 'ic',
-          placeholder: 'Ic',
-          value: staffIc
-        },
-        {
-          name: 'position',
-          placeholder: 'Position',
-          value: staffPosition
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Save',
-          handler: data => {
-            this.staffsRef.update(staffId, {
-              firstName: data.firstName, 
-              lastName: data.lastName,
-              ic: data.ic,
-              staffPosition: data.position
-            });
-          }
-        }
-      ]
-    });
-    prompt.present();
   }
 
   userLogout(){

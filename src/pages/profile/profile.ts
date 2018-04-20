@@ -173,6 +173,8 @@ export class ProfilePage {
                 contact: this.telephoneNo,
               })
               this.presentToast("Data have been successfully sumbitted.")
+              console.log("data", data);
+              this.navCtrl.setRoot('StaffListPage');
             }
           }
         }]
